@@ -1,76 +1,45 @@
 import { Sparkles, Code, Briefcase, MessageSquare } from 'lucide-react';
-
-const services = [
-  {
-    icon: Sparkles,
-    title: 'Pre-sales Design',
-    gradient: 'from-blue-500 to-cyan-500',
-    features: [
-      'Analýza požadavků zákazníka',
-      'Návrh architektury řešení',
-      'Technická prezentace a demo',
-      'Odhad náročnosti a timeline'
-    ]
-  },
-  {
-    icon: Code,
-    title: 'Implementace & Vývoj',
-    gradient: 'from-purple-500 to-pink-500',
-    features: [
-      'Vývoj na platformě FUSIO',
-      'Database design a optimalizace',
-      'Custom moduly a integrace',
-      'Code review a best practices'
-    ]
-  },
-  {
-    icon: Briefcase,
-    title: 'Technical Project Management',
-    gradient: 'from-orange-500 to-amber-500',
-    features: [
-      'Koordinace vývojového týmu',
-      'Agile metodologie',
-      'Risk management',
-      'Stakeholder komunikace'
-    ]
-  },
-  {
-    icon: MessageSquare,
-    title: 'Consulting & Support',
-    gradient: 'from-green-500 to-emerald-500',
-    features: [
-      'Technické konzultace',
-      'Optimalizace výkonu systému',
-      'Školení a dokumentace',
-      'Long-term podpora'
-    ]
-  }
-];
+import { useLanguage } from '../../i18n/LanguageContext';
 
 const ServicesTab = () => {
+  const { t } = useLanguage();
+
+  const serviceIcons = [Sparkles, Code, Briefcase, MessageSquare];
+  const serviceGradients = [
+    'from-sage-500 to-sage-600',
+    'from-lavender-500 to-lavender-600',
+    'from-peach-500 to-peach-600',
+    'from-sage-500 to-sage-600',
+  ];
+
   return (
     <div className="grid md:grid-cols-2 gap-6">
-      {services.map((service) => (
-        <div
-          key={service.title}
-          className="bg-white/5 backdrop-blur-sm border border-white/10 rounded-2xl p-6 hover:border-white/20 transition-all duration-300 group"
-        >
-          <div className={`w-14 h-14 rounded-xl bg-gradient-to-r ${service.gradient} flex items-center justify-center mb-4 group-hover:scale-110 transition-transform`}>
-            <service.icon className="w-7 h-7 text-white" />
+      {t.services.services.map((service, index) => {
+        const Icon = serviceIcons[index];
+        const gradient = serviceGradients[index];
+
+        return (
+          <div
+            key={index}
+            className="bg-white/60 border border-neutral-200 rounded-2xl p-6 hover:bg-white transition-all duration-300 group"
+          >
+            <div className={`w-14 h-14 rounded-xl bg-gradient-to-r ${gradient} flex items-center justify-center mb-4 group-hover:scale-110 transition-transform`}>
+              <Icon className="w-7 h-7 text-white" />
+            </div>
+
+            <h3 className="text-xl font-bold mb-4 text-neutral-900">{service.title}</h3>
+
+            <ul className="space-y-2">
+              {service.features.map((feature) => (
+                <li key={feature} className="flex items-start gap-2 text-neutral-700">
+                  <span className="text-sage-600 mt-1">•</span>
+                  <span>{feature}</span>
+                </li>
+              ))}
+            </ul>
           </div>
-
-          <h3 className="text-xl font-bold mb-4">{service.title}</h3>
-
-          <ul className="space-y-2">
-            {service.features.map((feature) => (
-              <li key={feature} className="flex items-start gap-2 text-neutral-300">
-                <span className="text-cyan-400 mt-1">•</span>
-                <span>{feature}</span>
-              </li>
-            ))}
-          </ul>
-        </div>
-      ))}
+        );
+      })}
     </div>
   );
 };
